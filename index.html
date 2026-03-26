@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizzes da EBD Fiel - Classe Jovens</title>
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            color: #eaf6ff;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        /* Partículas de fundo */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header - NOVO MODELO (mais limpo, com redes sociais) */
+        header {
+            text-align: center;
+            padding: 40px 20px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .logo-img {
+            max-width: 150px;
+            height: auto;
+            display: block;
+            margin: 0 auto 20px auto;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.7);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle strong {
+            color: #ffb347;
+            font-weight: 600;
+            background: rgba(255,179,71,0.15);
+            padding: 6px 16px;
+            border-radius: 40px;
+            display: inline-block;
+            margin-left: 8px;
+            border: 1px solid rgba(255,179,71,0.3);
+        }
+
+        .header-description {
+            color: rgba(255,255,255,0.6);
+            font-size: 1rem;
+            margin-bottom: 25px;
+        }
+
+        /* Redes sociais no cabeçalho */
+        .header-social {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .header-social h3 {
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 15px;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .social-icons-header {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .social-icon-header {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 1.4rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(8px);
+        }
+
+        .social-icon-header:hover {
+            transform: translateY(-6px) scale(1.1);
+            background: linear-gradient(145deg, #00b4d8, #0077b6);
+            box-shadow: 0 16px 30px rgba(0,180,216,0.5);
+            border-color: transparent;
+        }
+
+        /* MENSAGEM DE SAUDAÇÃO */
+        .saudacao {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 30px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            color: rgba(255,255,255,0.9);
+        }
+
+        .saudacao h2 {
+            color: #ffb347;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .saudacao p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .saudacao ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .saudacao li {
+            margin-bottom: 8px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .saudacao .destaque {
+            background: rgba(255,180,70,0.1);
+            padding: 15px;
+            border-radius: 20px;
+            border-left: 4px solid #ffb347;
+            margin-top: 20px;
+        }
+
+        /* NAVEGAÇÃO ENTRE TRIMESTRES */
+        .nav-trimestres {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .nav-trimestres h3 {
+            color: #ffb347;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .trimestre-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .trimestre-btn {
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-width: 180px;
+            text-align: center;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .trimestre-btn.active {
+            background: linear-gradient(135deg, #ffb347, #ff8c00);
+            color: #1e2f4a;
+            border-color: transparent;
+        }
+
+        .trimestre-btn.inactive {
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.3);
+            cursor: not-allowed;
+            border-color: rgba(255,255,255,0.05);
+        }
+
+        .trimestre-btn:hover:not(.inactive) {
+            transform: translateY(-3px);
+            background: rgba(255,180,70,0.2);
+            border-color: #ffb347;
+        }
+
+        /* SEÇÃO DO TRIMESTRE */
+        .trimestre {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 30px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            display: none;
+        }
+
+        .trimestre.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .trimestre h2 {
+            color: white;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .trimestre h2 .badge {
+            background: linear-gradient(135deg, #ffb347 0%, #ff8c00 100%);
+            color: #1e2f4a;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+        }
+
+        .licoes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .licao-card {
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .licao-card:hover {
+            transform: translateY(-5px);
+            border-color: #ffb347;
+            box-shadow: 0 15px 30px rgba(255,180,70,0.2);
+        }
+
+        .licao-card .numero {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,180,70,0.2);
+            color: #ffb347;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border: 1px solid rgba(255,180,70,0.3);
+        }
+
+        .licao-card h3 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            padding-right: 50px;
+            flex-grow: 1;
+        }
+
+        .licao-card .data {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-quiz {
+            display: inline-block;
+            background: linear-gradient(135deg, #00b4d8, #0077b6);
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            margin-top: auto;
+            box-shadow: 0 5px 15px rgba(0,180,216,0.3);
+        }
+
+        .btn-quiz:hover {
+            background: linear-gradient(135deg, #0096c7, #005f8e);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,180,216,0.4);
+        }
+
+        .btn-quiz.disabled {
+            background: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.3);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .btn-quiz.disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .status.ativa {
+            background: rgba(40,167,69,0.2);
+            color: #4ade80;
+            border: 1px solid rgba(74,222,128,0.3);
+        }
+
+        .status.breve {
+            background: rgba(255,179,71,0.2);
+            color: #ffb347;
+            border: 1px solid rgba(255,179,71,0.3);
+        }
+
+        /* SEÇÃO DE REDES SOCIAIS (agora só no header, removi a duplicada) */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.5);
+            margin-top: 40px;
+        }
+
+        /* SEÇÕES DOS OUTROS TRIMESTRES */
+        .trimestre-placeholder {
+            text-align: center;
+            padding: 60px 30px;
+        }
+
+        .trimestre-placeholder h3 {
+            color: #ffb347;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .trimestre-placeholder p {
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .btn-pasta {
+            display: inline-block;
+            background: linear-gradient(135deg, #00b4d8, #0077b6);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .btn-pasta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,180,216,0.3);
+        }
+
+        .btn-paga {
+            background: linear-gradient(135deg, #ffb347, #ff8c00) !important;
+            color: #1e2f4a !important;
+        }
+
+        @media (max-width: 768px) {
+            .licoes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .logo-img {
+                max-width: 120px;
+            }
+            
+            .trimestre h2 {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .licao-card h3 {
+                padding-right: 0;
+                font-size: 1rem;
+            }
+            
+            .trimestre-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .trimestre-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .saudacao {
+                padding: 20px;
+            }
+            
+            .social-icons-header {
+                gap: 15px;
+            }
+            
+            .social-icon-header {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 25px 15px 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .subtitle strong {
+                padding: 4px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .trimestre {
+                padding: 20px 15px;
+            }
+            
+            .licao-card {
+                padding: 20px;
+            }
+            
+            .saudacao {
+                padding: 15px;
+            }
+        }
+
+        /* Animações */
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles"></canvas>
+
+    <div class="container">
+        <!-- HEADER NOVO MODELO (mais limpo, com redes sociais) -->
+        <header>
+            <img src="https://i.imgur.com/vsNu5IC.png" alt="Logo EBD" class="logo-img">
+            
+            <h1>Quizes da EBD Fiel</h1>
+            <p class="subtitle">Quizes Interativos <strong>Classe Jovens</strong></p>
+            <p class="header-description">Teste seu conhecimento com os quizes das lições da EBD</p>
+            
+            <!-- Redes sociais no cabeçalho (mesmo estilo da página de adultos) -->
+            <div class="header-social">
+                <h3>Siga a EBD Fiel nas redes sociais:</h3>
+                <div class="social-icons-header">
+                    <a href="https://www.instagram.com/ebdfiel/" class="social-icon-header" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/EBDFiel/" class="social-icon-header" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.youtube.com/@EBDFiel" class="social-icon-header" target="_blank"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.tiktok.com/@ebdfiel" class="social-icon-header" target="_blank"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </header>
+        
+        <!-- MENSAGEM DE SAUDAÇÃO E EXPLICAÇÃO -->
+        <div class="saudacao">
+            <h2>📖 Bem-vindo à Escola Bíblica Dominical - Jovens 2026!</h2>
+            
+            <p>Esta página foi desenvolvida para auxiliar no estudo e fixação das lições da EBD para a classe de Jovens no ano de 2026.</p>
+            
+            <p><strong>Finalidade dos Quizzes:</strong></p>
+            <ul>
+                <li><strong>Reforçar o aprendizado:</strong> Testar o conhecimento adquirido em cada lição</li>
+                <li><strong>Preparar para as aulas:</strong> Revisar os principais conceitos antes da aula dominical</li>
+                <li><strong>Avaliar o entendimento:</strong> Identificar pontos que precisam de mais atenção</li>
+                <li><strong>Tornar o estudo interativo:</strong> Transformar o estudo bíblico em uma experiência dinâmica</li>
+                <li><strong>Facilitar o ensino:</strong> Professores podem usar os quizzes para preparar suas aulas</li>
+            </ul>
+            
+            <div class="destaque">
+                <p><strong>✨ Como usar esta plataforma:</strong></p>
+                <p>1. Selecione o trimestre desejado no menu abaixo</p>
+                <p>2. Encontre a lição da semana correspondente</p>
+                <p>3. Clique em "Iniciar Quiz" para testar seu conhecimento</p>
+                <p>4. Revise as questões e estude os pontos que você errou</p>
+            </div>
+            
+            <p>Os quizzes serão disponibilizados semanalmente, seguindo o calendário das lições. As lições futuras serão marcadas como "Em preparação" até estarem prontas para uso.</p>
+            
+            <p>Que Deus abençoe seu estudo da Palavra e que estes recursos contribuam para seu crescimento espiritual!</p>
+        </div>
+        
+        <!-- NAVEGAÇÃO ENTRE TRIMESTRES -->
+        <div class="nav-trimestres">
+            <h3>📅 Selecione o Trimestre:</h3>
+            <div class="trimestre-links">
+                <a href="#trimestre-1" class="trimestre-btn active" data-trimestre="1">
+                    1º Trimestre (Jan-Mar)
+                </a>
+                <a href="#trimestre-2" class="trimestre-btn inactive" data-trimestre="2">
+                    2º Trimestre (Abr-Jun) - Em breve
+                </a>
+                <a href="#trimestre-3" class="trimestre-btn inactive" data-trimestre="3">
+                    3º Trimestre (Jul-Set) - Em breve
+                </a>
+                <a href="#trimestre-4" class="trimestre-btn inactive" data-trimestre="4">
+                    4º Trimestre (Out-Dez) - Em breve
+                </a>
+            </div>
+        </div>
+        
+        <!-- PRIMEIRO TRIMESTRE -->
+        <div id="trimestre-1" class="trimestre active">
+            <h2>
+                <span>1º Trimestre 2026 - Jovens</span>
+                <span class="badge">Jan-Mar</span>
+            </h2>
+            <p style="margin-bottom: 25px; color: rgba(255,255,255,0.8); font-size: 1.1rem;">
+                <strong>Tema:</strong> As Bem-Aventuranças do Reino de Deus
+            </p>
+            
+            <div class="licoes-grid">
+                <!-- Lição 01 -->
+                <div class="licao-card">
+                    <div class="numero">01</div>
+                    <h3>As Beatitudes do Reino de Deus</h3>
+                    <div class="data">
+                        <span>📅</span> 04/01/2026
+                        <span class="status ativa">Disponível</span>
+                    </div>
+                    <a href="trimestre-01/licao-01/index.html" class="btn-quiz">
+                        ▶️ Iniciar Quiz
+                    </a>
+                </div>
+                
+                <!-- Lição 02 -->
+                <div class="licao-card">
+                    <div class="numero">02</div>
+                    <h3>Bem-Aventurados em Cristo</h3>
+                    <div class="data">
+                        <span>📅</span> 11/01/2026
+                        <span class="status ativa">Disponível</span>
+                    </div>
+                    <a href="trimestre-01/licao-02/index.html" class="btn-quiz">
+                        ▶️ Iniciar Quiz
+                    </a>
+                </div>
+                
+                <!-- Lição 03 -->
+                <div class="licao-card">
+                    <div class="numero">03</div>
+                    <h3>Bem-Aventurados os pobres de espírito</h3>
+                    <div class="data">
+                        <span>📅</span> 18/01/2026
+                        <span class="status ativa">Disponível</span>
+                    </div>
+                    <a href="trimestre-01/licao-03/index.html" class="btn-quiz">
+                        ▶️ Iniciar Quiz
+                    </a>
+                </div>
+                
+                <!-- Lição 04 -->
+                <div class="licao-card">
+                    <div class="numero">04</div>
+                    <h3>Bem-Aventurados os que choram por seus pecados</h3>
+                    <div class="data">
+                        <span>📅</span> 25/01/2026
+                        <span class="status ativa">Disponível</span>
+                    </div>
+                    <a href="trimestre-01/licao-04/index.html" class="btn-quiz">
+                        ▶️ Iniciar Quiz
+                    </a>
+                </div>
+                
+                <!-- Lição 05 -->
+                <div class="licao-card">
+                    <div class="numero">05</div>
+                    <h3>Bem-Aventurados os mansos</h3>
+                    <div class="data">
+                        <span>📅</span> 01/02/2026
+                        <span class="status ativa">Disponível</span>
+                    </div>
+                    <a href="trimestre-01/licao-05/index.html" class="btn-quiz">
+                        ▶️ Iniciar Quiz
+                    </a>
+                </div>
+                
+                <!-- Lição 06 -->
+                <div class="licao-card">
+                    <div class="numero">06</div>
+                    <h3>Bem-Aventurados os que têm fome e sede de justiça</h3>
+                    <div class="data">
+                        <span>📅</span> 08/02/2026
+                        <span class="status ativa">Disponível</span>
+                    </div>
+                    <a href="trimestre-01/licao-06/index.html" class="btn-quiz">
+                        ▶️ Iniciar Quiz
+                    </a>
+                </div>
+                
+                <!-- Lição 07 -->
+                <div class="licao-card">
+                    <div class="numero">07</div>
+                    <h3>Bem-Aventurados os misericordiosos</h3>
+                    <div class="data">
+                        <span>📅</span> 15/02/2026
+                        <span class="status ativa">Disponível</span>
+                    </div>
+                    <a href="trimestre-01/licao-07/index.html" class="btn-quiz">
+                        ▶️ Iniciar Quiz
+                    </a>
+                </div>
+                
+                <!-- Lição 08 -->
+                <div class="licao-card">
+                    <div class="numero">08</div>
+                    <h3>Bem-Aventurados os limpos de coração</h3>
+                    <div class="data">
+                        <span>📅</span> 22/02/2026
+                        <span class="status ativa">Disponível</span>
+                    </div>
+                    <a href="trimestre-01/licao-08/index.html" class="btn-quiz">
+                        ▶️ Iniciar Quiz
+                    </a>
+                </div>
+                
+                <!-- Lição 09 -->
+                <div class="licao-card">
+                    <div class="numero">09</div>
+                    <h3>Bem-Aventurados os pacificadores</h3>
+                    <div class="data">
+                        <span>📅</span> 01/03/2026
+                        <span class="status ativa">Disponível</span>
+                    </div>
+                    <a href="trimestre-01/licao-09/index.html" class="btn-quiz">
+                        ▶️ Iniciar Quiz
+                    </a>
+                </div>
+                
+                <!-- Lição 10 -->
+                <div class="licao-card">
+                    <div class="numero">10</div>
+                    <h3>Bem-Aventurados os perseguidos por causa da justiça</h3>
+                    <div class="data">
+                        <span>📅</span> 08/03/2026
+                        <span class="status ativa">Disponível</span>
+                    </div>
+                    <a href="trimestre-01/licao-10/index.html" class="btn-quiz">
+                        ▶️ Iniciar Quiz
+                    </a>
+                </div>
+                
+                <!-- Lição 11 -->
+                <div class="licao-card">
+                    <div class="numero">11</div>
+                    <h3>O sal da terra e a luz do mundo</h3>
+                    <div class="data">
+                        <span>📅</span> 15/03/2026
+                        <span class="status ativa">Disponível</span>
+                    </div>
+                    <a href="trimestre-01/licao-11/index.html" class="btn-quiz">
+                        ▶️ Iniciar Quiz
+                    </a>
+                </div>
+                
+                <!-- Lição 12 -->
+                <div class="licao-card">
+                    <div class="numero">12</div>
+                    <h3>Esmola, oração e jejum são práticas espirituais</h3>
+                    <div class="data">
+                        <span>📅</span> 22/03/2026
+                        <span class="status ativa">Disponível</span>
+                    </div>
+                    <a href="trimestre-01/licao-12/index.html" class="btn-quiz">
+                        ▶️ Iniciar Quiz
+                    </a>
+                </div>
+                
+                <!-- Lição 13 -->
+                <div class="licao-card">
+                    <div class="numero">13</div>
+                    <h3>Não andeis ansiosos</h3>
+                    <div class="data">
+                        <span>📅</span> 29/03/2026
+                        <span class="status ativa">Disponível</span>
+                    </div>
+                    <a href="trimestre-01/licao-13/index.html" class="btn-quiz">
+                        ▶️ Iniciar Quiz
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SEGUNDO TRIMESTRE -->
+        <div id="trimestre-2" class="trimestre">
+            <h2>
+                <span>2º Trimestre 2026 - Jovens</span>
+                <span class="badge">Abr-Jun</span>
+            </h2>
+            <div class="trimestre-placeholder">
+                <h3>🚧 Em Construção 🚧</h3>
+                <p>O conteúdo do 2º Trimestre 2026 estará disponível em breve.</p>
+                <p><strong>Tema previsto:</strong> A Vida de Jesus - Seus Milagres e Parábolas</p>
+                <p><strong>Período:</strong> 05/04 a 28/06 de 2026</p>
+                <div style="margin-top: 30px;">
+                    <a href="#" class="btn-pasta" onclick="criarPasta('trimestre-02')">📁 Criar Estrutura do 2º Trimestre</a>
+                    <a href="#" class="btn-pasta btn-paga" style="background: #FF7A5A;" onclick="window.open('https://github.com', '_blank')">⚙️ Configurar no GitHub</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TERCEIRO TRIMESTRE -->
+        <div id="trimestre-3" class="trimestre">
+            <h2>
+                <span>3º Trimestre 2026 - Jovens</span>
+                <span class="badge">Jul-Set</span>
+            </h2>
+            <div class="trimestre-placeholder">
+                <h3>📅 Planejamento</h3>
+                <p>O conteúdo do 3º Trimestre 2026 será disponibilizado no segundo semestre.</p>
+                <p><strong>Tema sugerido:</strong> A Igreja Primitiva - Atos dos Apóstolos</p>
+                <p><strong>Período:</strong> 05/07 a 27/09 de 2026</p>
+                <div style="margin-top: 30px;">
+                    <a href="#" class="btn-pasta" onclick="criarPasta('trimestre-03')">📁 Criar Estrutura do 3º Trimestre</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- QUARTO TRIMESTRE -->
+        <div id="trimestre-4" class="trimestre">
+            <h2>
+                <span>4º Trimestre 2026 - Jovens</span>
+                <span class="badge">Out-Dez</span>
+            </h2>
+            <div class="trimestre-placeholder">
+                <h3>🎯 Para o Futuro</h3>
+                <p>O conteúdo do 4º Trimestre 2026 será preparado no último trimestre do ano.</p>
+                <p><strong>Tema sugerido:</strong> Profecias e Esperança Escatológica</p>
+                <p><strong>Período:</strong> 04/10 a 27/12 de 2026</p>
+                <div style="margin-top: 30px;">
+                    <a href="#" class="btn-pasta" onclick="criarPasta('trimestre-04')">📁 Criar Estrutura do 4º Trimestre</a>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2026 - Escola Bíblica Dominical - Classe de Jovens</p>
+            <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 10px;">
+                Para estudo e edificação da juventude cristã
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // Partículas de fundo
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        const particles = Array.from({ length: 100 }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 2,
+            d: Math.random() * 1 + 0.5,
+            o: Math.random() * 0.3 + 0.1
+        }));
+        
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 180, 70, ${p.o})`;
+                ctx.fill();
+                p.y += p.d;
+                if (p.y > canvas.height) {
+                    p.y = 0;
+                    p.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(drawParticles);
+        }
+        drawParticles();
+
+        // Navegação entre trimestres
+        document.addEventListener('DOMContentLoaded', function() {
+            const trimestreButtons = document.querySelectorAll('.trimestre-btn');
+            const trimestreSections = document.querySelectorAll('.trimestre');
+            
+            // Verifica se a logo carrega
+            const logoImg = document.querySelector('.logo-img');
+            logoImg.onerror = function() {
+                this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%235D3FD3"/><text x="50" y="60" font-family="Arial" font-size="24" fill="white" text-anchor="middle">EBD</text><text x="50" y="80" font-family="Arial" font-size="12" fill="white" text-anchor="middle">JOVENS</text></svg>';
+            };
+            
+            // Configura navegação por hash na URL
+            function showTrimestre(trimestreId) {
+                // Remove active de todas as seções
+                trimestreSections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Remove active de todos os botões
+                trimestreButtons.forEach(button => {
+                    button.classList.remove('active');
+                    button.classList.add('inactive');
+                });
+                
+                // Ativa a seção e botão correspondentes
+                const targetSection = document.getElementById(`trimestre-${trimestreId}`);
+                const targetButton = document.querySelector(`[data-trimestre="${trimestreId}"]`);
+                
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+                
+                if (targetButton) {
+                    targetButton.classList.remove('inactive');
+                    targetButton.classList.add('active');
+                }
+                
+                // Atualiza a URL sem recarregar a página
+                history.pushState(null, null, `#trimestre-${trimestreId}`);
+            }
+            
+            // Configura eventos dos botões
+            trimestreButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    if (this.classList.contains('inactive')) {
+                        e.preventDefault();
+                        return;
+                    }
+                    
+                    const trimestreId = this.getAttribute('data-trimestre');
+                    showTrimestre(trimestreId);
+                });
+            });
+            
+            // Verifica hash na URL ao carregar
+            const hash = window.location.hash;
+            if (hash) {
+                const trimestreId = hash.replace('#trimestre-', '');
+                if (trimestreId >= 1 && trimestreId <= 4) {
+                    showTrimestre(trimestreId);
+                }
+            }
+            
+            // Função para simular criação de pastas (apenas demonstração)
+            window.criarPasta = function(nomePasta) {
+                alert(`Para criar a pasta "${nomePasta}/" no GitHub:\n\n1. Vá em "Add file" → "Create new file"\n2. Digite: "${nomePasta}/licao-01/index.html"\n3. Isso criará automaticamente todas as pastas necessárias.\n\nRepita para as 13 lições.`);
+                return false;
+            };
+        });
+    </script>
+</body>
+</html>
