@@ -196,9 +196,27 @@
             align-items: center;
             justify-content: space-between;
             transition: background 0.3s ease;
+            gap: 15px;
         }
 
         .trimestre-header:hover { background: rgba(255,255,255,0.1); }
+
+        .trimestre-header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+
+        .trimestre-mini-capa {
+            width: 70px;
+            height: auto;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
 
         .trimestre-header h2 {
             color: #fff;
@@ -438,6 +456,8 @@
             .trimestre-conteudo.open { padding: 0 18px 22px; }
             .licoes-grid { grid-template-columns: 1fr; }
             .titulo-imagem { max-width: 260px; }
+            .trimestre-mini-capa { width: 50px; }
+            .trimestre-header-left { gap: 12px; }
         }
     </style>
 </head>
@@ -619,7 +639,7 @@
             return info && today >= info.releaseDate;
         }
 
-        // Gera o HTML de um trimestre (estilo acordeão)
+        // Gera o HTML de um trimestre (estilo acordeão com miniatura da capa no header)
         function renderTrimestre(trimestreNum) {
             const data = trimestresData[trimestreNum - 1];
             if (!data) return '';
@@ -648,10 +668,13 @@
             return `
                 <div class="trimestre" data-trimestre-num="${trimestreNum}">
                     <div class="trimestre-header">
-                        <h2>
-                            <span>${data.titulo}</span>
-                            <span class="badge">${data.badge}</span>
-                        </h2>
+                        <div class="trimestre-header-left">
+                            <img src="${data.capa}" alt="Capa do ${data.titulo}" class="trimestre-mini-capa" onerror="this.src='https://via.placeholder.com/70x70/2c5364/ffffff?text=Cap'">
+                            <h2>
+                                <span>${data.titulo}</span>
+                                <span class="badge">${data.badge}</span>
+                            </h2>
+                        </div>
                         <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
                     </div>
                     <div class="trimestre-conteudo">
