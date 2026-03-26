@@ -659,7 +659,7 @@
                             ${!avail ? `<span class="release-date">📆 Disponível a partir de ${releaseStr}</span>` : ''}
                         </div>
                         ${avail ?
-                            `<a href="trimestre-${trimestreNum.toString().padStart(2,'0')}/licao-${lessonNum.toString().padStart(2,'0')}/" class="btn-quiz"><i class="fas fa-play-circle"></i> Iniciar Quiz</a>` :
+                            `<a href="trimestre-${trimestreNum.toString().padStart(2,'0')}/licao-${lessonNum.toString().padStart(2,'0')}/" class="btn-quiz" target="_blank" rel="noopener noreferrer"><i class="fas fa-play-circle"></i> Iniciar Quiz</a>` :
                             `<a href="#" class="btn-quiz disabled"><i class="fas fa-clock"></i> Em preparação</a>`
                         }
                     </div>
