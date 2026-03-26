@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - EBD Fiel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            min-height: 100vh;
+            padding: 20px;
+            color: #eaf6ff;
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #ffb347;
+        }
+        .question {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+        }
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.05);
+            padding: 12px 16px;
+            border-radius: 40px;
+            transition: 0.2s;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .option:hover {
+            background: rgba(255,180,71,0.2);
+            border-color: #ffb347;
+        }
+        .option input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .option label {
+            cursor: pointer;
+            flex: 1;
+        }
+        button {
+            background: linear-gradient(145deg, #00b4d8, #0077b6);
+            border: none;
+            color: white;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 40px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,180,216,0.4);
+        }
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+            color: #ffb347;
+            text-decoration: none;
+        }
+        .error {
+            text-align: center;
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container" id="quiz-container">
+        <div id="loading">Carregando quiz...</div>
+    </div>
+
+    <script>
+        // Função para carregar os dados do quiz (do localStorage ou padrão)
+        function getQuizData(trimestre, lesson) {
+            const key = `quiz_trim${trimestre}_lesson${lesson}`;
+            const stored = localStorage.getItem(key);
+            if (stored) {
+                try {
+                    return JSON.parse(stored);
+                } catch(e) {
+                    console.error("Erro ao parsear dados salvos", e);
+                }
+            }
+            // Fallback: dados padrão (você pode expandir com base no trimestre/lição)
+            return {
+                title: `Quiz - Trimestre ${trimestre} - Lição ${lesson}`,
+                questions: [
+                    {
+                        text: "Pergunta padrão. Edite no painel administrativo.",
+                        options: ["Alternativa A", "Alternativa B", "Alternativa C", "Alternativa D"],
+                        correct: 0
+                    }
+                ]
+            };
+        }
+
+        function renderQuiz() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const trim = urlParams.get('trim');
+            const lesson = urlParams.get('lesson');
+            if (!trim || !lesson) {
+                document.getElementById('quiz-container').innerHTML = '<div class="error">Erro: parâmetros inválidos. Use ?trim=1&lesson=1</div>';
+                return;
+            }
+
+            const data = getQuizData(parseInt(trim), parseInt(lesson));
+            if (!data || !data.questions || data.questions.length === 0) {
+                document.getElementById('quiz-container').innerHTML = '<div class="error">Nenhuma pergunta encontrada para este quiz.</div>';
+                return;
+            }
+
+            let html = `<h1>${data.title || `Quiz - Trimestre ${trim} - Lição ${lesson}`}</h1>`;
+            data.questions.forEach((q, idx) => {
+                html += `
+                    <div class="question" data-qidx="${idx}">
+                        <div class="question-text">${idx+1}. ${q.text}</div>
+                        <div class="options">
+                            ${q.options.map((opt, optIdx) => `
+                                <div class="option" data-optidx="${optIdx}">
+                                    <input type="radio" name="q${idx}" value="${optIdx}" id="q${idx}_opt${optIdx}">
+                                    <label for="q${idx}_opt${optIdx}">${opt}</label>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+            html += `<button id="submit-quiz">Corrigir Quiz</button>
+                     <div id="result"></div>
+                     <a href="index.html" class="back-link">← Voltar para a página principal</a>`;
+            document.getElementById('quiz-container').innerHTML = html;
+
+            document.getElementById('submit-quiz').addEventListener('click', () => {
+                let score = 0;
+                data.questions.forEach((q, idx) => {
+                    const selected = document.querySelector(`input[name="q${idx}"]:checked`);
+                    if (selected && parseInt(selected.value) === q.correct) {
+                        score++;
+                    }
+                });
+                const total = data.questions.length;
+                const percent = (score / total) * 100;
+                const resultDiv = document.getElementById('result');
+                resultDiv.className = 'result';
+                resultDiv.innerHTML = `<strong>Você acertou ${score} de ${total} questões (${percent.toFixed(0)}%)</strong><br>`;
+                if (percent >= 70) {
+                    resultDiv.innerHTML += "🎉 Parabéns! Continue estudando.";
+                } else {
+                    resultDiv.innerHTML += "📖 Estude mais um pouco e tente novamente.";
+                }
+            });
+        }
+
+        renderQuiz();
+    </script>
+</body>
+</html>
