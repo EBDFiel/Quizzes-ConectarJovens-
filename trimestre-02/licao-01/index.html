@@ -507,7 +507,7 @@
       <div class="performance-item"><div class="performance-value performance-hard" id="correct-hard">0</div><div>Difíceis</div></div>
     </div>
     <div class="message" id="message"></div>
-    <!-- NOVA SEÇÃO DE REDES SOCIAIS -->
+    <!-- NOVA SEÇÃO DE REDES SOCIAIS COM WHATSAPP -->
     <div class="social-share">
       <p><i class="fas fa-heart" style="color:#ffb347;"></i> Está sendo edificado com este Quiz? Siga-nos nas redes sociais!</p>
       <p>Curtir, comentar e compartilhar ajuda a levar a Palavra de Deus mais longe.</p>
@@ -516,6 +516,8 @@
         <a href="https://www.youtube.com/@EBDFiel" target="_blank" class="social-link"><i class="fab fa-youtube"></i> YouTube</a>
         <a href="https://www.tiktok.com/@ebdfiel" target="_blank" class="social-link"><i class="fab fa-tiktok"></i> TikTok</a>
         <a href="https://www.facebook.com/EBDFiel/" target="_blank" class="social-link"><i class="fab fa-facebook"></i> Facebook</a>
+        <!-- Botão do WhatsApp com ID para atualizar dinamicamente -->
+        <a href="#" id="whatsapp-share" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i> Compartilhar no WhatsApp</a>
       </div>
     </div>
     <button id="restart-btn"><i class="fas fa-redo"></i> Refazer Quiz</button>
@@ -771,6 +773,15 @@
       trophy.className = 'fas fa-book';
     }
     msgDiv.innerHTML = msg;
+
+    // Atualizar o link de compartilhamento do WhatsApp com a URL atual e uma mensagem amigável
+    const whatsappLink = document.getElementById('whatsapp-share');
+    if (whatsappLink) {
+      const currentUrl = encodeURIComponent(window.location.href);
+      const message = encodeURIComponent(`Confira meu resultado no Quiz da EBD Jovem! 🎯\n\nMinha pontuação: ${score}/${allQuestions.length} (${Math.round(perc*100)}% de acertos).\n\nFaça você também e aprenda mais sobre o Senhorio de Deus! 👇\n${window.location.href}`);
+      whatsappLink.href = `https://wa.me/?text=${message}`;
+    }
+
     Array.from(document.querySelectorAll('#results > *')).forEach((el, i) => {
       el.classList.add('fade-in');
       el.style.animationDelay = `${i * 0.2}s`;
